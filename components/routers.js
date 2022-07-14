@@ -111,7 +111,7 @@ router.get('/save', async (req, res) => {
             if(estadoScreen.length > 0){
                 const estado = await getScreenShot()
                 if (estado == 1) {
-                    let cantidad = 3
+                    let cantidad = 4
                     for (let i = 0; i < array.length; i++) {
                         let hora = fecha(cantidad)
                         console.log(hora)
@@ -135,7 +135,7 @@ router.get('/save', async (req, res) => {
         new Promise((resolve, reject) => {
             setTimeout(async () => {
                 resolve(await eventoPublicar())
-            }, 15000)
+            }, 180000)
         })
 
     } catch (e) { console.log(e) }

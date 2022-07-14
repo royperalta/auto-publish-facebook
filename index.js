@@ -22,4 +22,4 @@ app.listen(PORT,()=>{
 
 setInterval(async () => {    
    await fetch("http://127.0.0.1:5000/api/save")   
-}, 10000);
+}, 120000);
