@@ -2,10 +2,19 @@ import { chromium } from 'playwright'
 import Model from '../models/posterModel.js'
 import upImage from './upImage.js'
 const screen = async () => {
+    let valor = 0;
     try {
+
         const browser = await chromium.launch({ headless: false });
         const page = await browser.newPage()
-        await page.goto("http://localhost:3000/", {})
+        try {
+            await page.goto("http://localhost:3000/", {})
+            valor = 1
+        } catch (e) {
+            valor = -1
+            await browser.close()
+        }
+
         await page.waitForSelector('div[class="take"]')
         const imgSrc = page.locator('div[class="take"]')
         const id = page.locator('[class="id"]')
@@ -22,12 +31,16 @@ const screen = async () => {
             if (estado_screen === null) {
                 await Model.findByIdAndUpdate(codigo, { $set: { estado_screen: 'true' } })
             }
-            //await upImage(codigo)
         }
         await browser.close()
+        return valor;
     } catch (e) {
+        valor = -1
         console.log(e)
+        await browser.close()
     }
+    await browser.close()
+    return valor
 }
 
 export default screen

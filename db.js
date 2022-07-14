@@ -148,7 +148,7 @@ const data = await Model.findOne({_id:"62c12e6137bcd441fa50cb7e"})
 const {estado_screen} = data
 console.log(estado_screen)
  */
-import FB from 'fb'
+/* import FB from 'fb'
 import dotenv from 'dotenv'
 
 dotenv.config({path:".env"})
@@ -161,10 +161,30 @@ FB.api(
     },
     function (response) {
       if (response && !response.error) {
-        /* handle the result */
+      
         console.log(response)
       }else{
         console.log(response)
       }
     }
 );
+ */
+
+
+import { chromium } from 'playwright'
+
+async function open() {
+    let valor = 1
+    const browser = await chromium.launch({ headless: false })
+    const page = await browser.newPage()
+    try {
+        await page.goto('http://localhost:3000')
+        valor = 2
+    } catch (e) {
+        console.log(e)
+        valor = "error"
+        return valor
+    }
+   
+}
+open()

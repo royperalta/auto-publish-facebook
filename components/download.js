@@ -11,7 +11,7 @@ async function download(URL,id) {
     if (!response.ok) throw new Error(`unexpected response ${response.statusText}`)
     await streamPipeline(response.body, createWriteStream(`images/${id}.jpg`))
     const reponse = await Model.findByIdAndUpdate(id,{$set:{estado_descarga_imagen:'true'}})  
-   }catch(e) {console.log(e)}  
+   }catch(e) {console.log(e); console.log(`Hay un erro con la URL: ${URL}`)}  
 
 }
 export default download

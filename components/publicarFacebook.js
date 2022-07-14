@@ -3,15 +3,16 @@ import fs from 'fs'; //
 import Model from '../models/posterModel.js'
 async function publicarFacebook(codigo, title, content, URL) {
   console.log(codigo, URL)
-  try {
+  try {    
     (await import('dotenv')).config({ path: ".env" })
+    const { link } = await Model.findOne({ title: `${title}` })
     FB.api(
       `/${process.env.ID_PAGE}/photos`,
       `POST`,
       {
         "source": fs.createReadStream(`screen/${codigo}.jpg`),
         //caption: 'My vacation'`}`,
-        "message": `${title} \n \n \n \n \n \n más información en el comentario`,
+        "message": `${title} \n \n \n \n \n \n Más información ${link}`,
         //"published": "false",
         //"scheduled_publish_time": `${fecha.toLocaleDateString()}T${hora}:00-05:00`,
         //"scheduled_publish_time":`${h}-05:00`,
@@ -23,10 +24,10 @@ async function publicarFacebook(codigo, title, content, URL) {
           console.log(response)
           return response.error
         } else {
-          const { link } = await Model.findOne({ title: `${title}` })
+          
           try {
             const { id } = response
-            FB.api(
+           /*  FB.api(
               `/${id}/comments`,
               "POST",
               {
@@ -35,13 +36,13 @@ async function publicarFacebook(codigo, title, content, URL) {
               },
               function (response) {
                 if (response && !response.error) {
-                  /* handle the result */
+                 
                   console.log(response)
                 } else {
                   console.log(response)
                 }
               }
-            );
+            ); */
             const save = await Model.findByIdAndUpdate(codigo, { $set: { estado_facebook: "true" } })
             console.log(save)
             if (save) {
